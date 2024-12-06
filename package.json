@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "vitest day_01/test.ts"
+    "test": "vitest day_04/day_04.test.ts"
   },
   "keywords": [],
   "author": "",
