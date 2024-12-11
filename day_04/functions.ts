@@ -317,3 +317,84 @@ export function find_XMAS_up_right(
   // if all these are true, return true
   return true;
 }
+
+// part 2
+export function find_all_X_MAS(data_array: string[][]): number {
+  // variable to keep track of all XMAS instances
+  let total_XMAS = 0;
+  // loop through each row in the data array
+  for (let row_index = 0; row_index < data_array.length; row_index++) {
+    // loop through each column of the row
+    for (
+      let column_index = 0;
+      column_index < data_array[row_index].length;
+      column_index++
+    ) {
+      if (data_array[row_index][column_index] === "A") {
+        // check if top left to bottom right spell MAS
+        if (check_MAS_tl_to_br(data_array, row_index, column_index)) {
+          if (check_MAS_bl_to_tl(data_array, row_index, column_index)) {
+            total_XMAS++;
+          }
+        }
+      }
+    }
+  }
+  return total_XMAS;
+}
+
+export function check_MAS_tl_to_br(
+  data_array: string[][],
+  row_index: number,
+  column_index: number
+): boolean {
+  // check reads MAS
+  if (row_index - 1 >= 0 && column_index - 1 >= 0) {
+    // check that there is a number up and to the left
+    const top_left = data_array[row_index - 1][column_index - 1];
+    if (top_left === "M" || top_left === "S") {
+      // top_left is the correct letter
+      if (
+        row_index + 1 < data_array.length &&
+        column_index + 1 < data_array[row_index].length
+      ) {
+        // there is a number down to the right
+        const bottom_right = data_array[row_index + 1][column_index + 1];
+        if (bottom_right === "M" || bottom_right === "S") {
+          // bottom_right is the correct letter
+          if (top_left !== bottom_right) {
+            // ensure that they are not the sam
+            return true;
+          }
+        }
+      }
+    }
+  }
+  return false;
+}
+
+export function check_MAS_bl_to_tl(
+  data_array: string[][],
+  row_index: number,
+  column_index: number
+): boolean {
+  if (row_index + 1 < data_array.length && column_index - 1 >= 0) {
+    const bottom_left = data_array[row_index + 1][column_index - 1];
+    if (bottom_left === "M" || bottom_left === "S") {
+      if (
+        row_index - 1 >= 0 &&
+        column_index + 1 < data_array[row_index].length
+      ) {
+        const top_right = data_array[row_index - 1][column_index + 1];
+        if (top_right === "M" || top_right === "S") {
+          // bottom_right is the correct letter
+          if (bottom_left !== top_right) {
+            // ensure that they are not the sam
+            return true;
+          }
+        }
+      }
+    }
+  }
+  return false;
+}
